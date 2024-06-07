@@ -1,12 +1,11 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react"
+import { useState } from "react";
 
 export default function Menu() {
-
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <div>
@@ -19,7 +18,7 @@ export default function Menu() {
         alt="menu"
       />
       {open && (
-        <div className="absolute bg-orange-500 text-white left-0 top-20 w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-8 font-semibold text-xl z-10">
+        <div className="absolute bg-orange text-white left-0 top-20 w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-8 font-semibold text-xl z-10">
           <Link href="/">Homepage</Link>
           <Link href="/">Shop</Link>
           <Link href="/">Deals</Link>
