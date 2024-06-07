@@ -23,11 +23,11 @@ export default function Navbar() {
         <div className="w-1/3 xl:w-1/2 flex items-center gap-12">
           <Link href="/" className="flex items-center gap-3">
             <Image src="/logo.png" alt="logo" width={24} height={24} />
-            <div className="flex items-center text-2xl tracking-wide uppercase font-bold">Express<span className="text-orange">Bazar</span>BD
+            <div className="flex items-center text-2xl tracking-wide uppercase font-bold">Exp..<span className="text-orange">Bazar</span>BD
             </div>
           </Link>
           <div className="hidden xl:flex gap-4">
-            <Link href="/">Homepage</Link>
+            <Link href="/">Home</Link>
             <Link href="/">Shop</Link>
             <Link href="/">Deals</Link>
             <Link href="/">About</Link>

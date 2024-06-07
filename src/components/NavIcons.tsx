@@ -32,7 +32,7 @@ export default function NavIcons() {
         onClick={handleProfile}
       />
       {isProfileOpen && (
-        <div className="absolute p-4 rounded-md top-12 left-0 text-sm bg-orange text-white font-semibold z-20">
+        <div className="absolute p-4 rounded-md top-12 left-0 text-sm bg-orange text-white font-semibold shadow-gray-400 shadow-md z-20">
           <Link href="/profile">Profile</Link>
           <button className="mt-2 cursor-pointer border-2 border-white hover:bg-white hover:text-orange w-full rounded-md p-1">
             SignOut
