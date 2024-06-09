@@ -104,7 +104,7 @@ export default function Footer() {
       </div>
       {/* Bottom */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 mt-16">
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center md:items-start gap-4 md:gap-0">
           <p>
             {" "}
             &copy; {new Date().getFullYear()} ExpressBazarBD. All rights
@@ -117,7 +117,7 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col gap-8 md:flex-row justify-center items-center">
+        <div className="flex flex-col gap-4 md:gap-8 md:flex-row justify-center items-center">
           <div className="flex items-center md:flex-col">
             <p className="text-gray-500 mr-4">Language</p>
             <p className="font-medium">United States | English</p>
