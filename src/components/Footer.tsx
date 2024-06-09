@@ -103,7 +103,7 @@ export default function Footer() {
         </div>
       </div>
       {/* Bottom */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-8 mt-16">
+      <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8 mt-16">
         <div className="flex flex-col items-center md:items-start gap-4 md:gap-0">
           <p>
             {" "}
