@@ -1,3 +1,5 @@
+import Filter from '@/components/Filter';
+import ProductList from '@/components/ProductList';
 import Image from 'next/image';
 import React from 'react'
 
@@ -19,6 +21,10 @@ export default function listPage() {
           <Image src="/woman.png" alt="women" className="object-contain" fill />
         </div>
       </div>
+      <Filter />
+      {/* Products */}
+      <h1 className='mt-12 text-xl font-semibold'>Shoes for You!</h1>
+      <ProductList/>
     </div>
   );
 }
