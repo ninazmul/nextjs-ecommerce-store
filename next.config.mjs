@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ["static.wixstatic.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -11,6 +12,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "www.pexels.com",
         pathname: "/photo/**",
+      },
+      {
+        protocol: "https",
+        hostname: "static.wixstatic.com",
       },
     ],
   },
