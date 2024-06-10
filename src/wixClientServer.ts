@@ -1,6 +1,6 @@
-import { createClient, OAuthStrategy } from "@wix/sdk";
-import { products, collections } from "@wix/stores";
-import cookies from "next/headers";
+import { OAuthStrategy, createClient } from "@wix/sdk";
+import { collections, products } from "@wix/stores";
+import { cookies } from "next/headers";
 
 export const wixClientServer = async () => {
   let refreshToken;
@@ -8,27 +8,21 @@ export const wixClientServer = async () => {
   try {
     const cookieStore = cookies();
     refreshToken = JSON.parse(cookieStore.get("refreshToken")?.value || "{}");
-  } catch (error) {
-    console.error("Error parsing refresh token from cookies:", error);
-  }
+  } catch (e) {}
 
-  try {
-    const wixClient = createClient({
-      modules: {
-        products,
-        collections,
+  const wixClient = createClient({
+    modules: {
+      products,
+      collections
+    },
+    auth: OAuthStrategy({
+      clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
+      tokens: {
+        refreshToken,
+        accessToken: { value: "", expiresAt: 0 },
       },
-      auth: OAuthStrategy({
-        clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
-        tokens: {
-          refreshToken,
-          accessToken: { value: "", expiresAt: 0 },
-        },
-      }),
-    });
-    return wixClient;
-  } catch (error) {
-    console.error("Error creating Wix client:", error);
-    throw error;
-  }
+    }),
+  });
+
+  return wixClient;
 };

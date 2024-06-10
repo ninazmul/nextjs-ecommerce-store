@@ -1,18 +1,9 @@
-// "use client"
-
 import CategoryList from "@/components/CategoryList";
-import ProductList from "@/components/ProductList"
-import Slider from "@/components/Slider"
-// import useWixClient from "@/hooks/useWixClient";
-import { wixClientServer } from "@/wixClientServer";
+import ProductList from "@/components/ProductList";
+import Slider from "@/components/Slider";
 import { Suspense } from "react";
 
-const HomePage = async() => {
- 
-  // const wixClient = await wixClientServer();
-
-  // const res = await wixClient.products.queryProducts().find();
-
+const HomePage = () => {
   return (
     <div className="">
       <Slider />
@@ -35,13 +26,15 @@ const HomePage = async() => {
       </div>
       <div className="mt-24 px-4 md:px-8 lg:px-16 xl:32 2xl:px-64">
         <h1 className="text-2xl font-semibold">New Products</h1>
-        <ProductList
-          categoryId={process.env.FEATURED_PRODUCTS_CATEGORY_ID!}
-          limit={4}
-        />
+        <Suspense fallback={"loading..."}>
+          <ProductList
+            categoryId={process.env.NEW_PRODUCTS_CATEGORY_ID!}
+            limit={4}
+          />
+        </Suspense>
       </div>
     </div>
   );
-}
+};
 
-export default HomePage
+export default HomePage;
