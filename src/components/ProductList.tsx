@@ -52,23 +52,30 @@ export default async function ProductList({
                   />
                 )}
               </div>
-              <div className="flex justify-between gap-4">
-                <p className="font-medium line-clamp-1">{product.name}</p>
-                <div className="flex gap-1 items-start">
-                  {product.price?.price === product.price?.discountedPrice ? (
-                    <h2 className="font-medium text-lg">
-                      ${product.price?.price}
-                    </h2>
-                  ) : (
-                    <>
-                      <h3 className="text-sm text-gray-500 line-through">
-                        ${product.price?.price}
-                      </h3>
+              <div>
+                <p className="font-medium line-clamp-1 text-center">
+                  {product.name}
+                </p>
+                <div className="flex justify-between gap-4">
+                  <p className="font-bold text-yellow-600 line-clamp-1">
+                    *****<span className="text-gray-500 font-normal text-sm">(5 reviews)</span>
+                  </p>
+                  <div className="flex gap-1 items-start">
+                    {product.price?.price === product.price?.discountedPrice ? (
                       <h2 className="font-medium text-lg">
-                        ${product.price?.discountedPrice}
+                        ${product.price?.price}
                       </h2>
-                    </>
-                  )}
+                    ) : (
+                      <>
+                        <h3 className="text-sm text-gray-500 line-through">
+                          ${product.price?.price}
+                        </h3>
+                        <h2 className="font-medium text-lg">
+                          ${product.price?.discountedPrice}
+                        </h2>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
               {product.additionalInfoSections && (
