@@ -9,9 +9,11 @@ const PRODUCT_PER_PAGE = 20;
 export default async function ProductList({
   categoryId,
   limit,
+  searchParams,
 }: {
   categoryId: string;
   limit?: number;
+    searchParams?: any;
 }) {
   try {
     const wixClient = await wixClientServer();
@@ -33,7 +35,7 @@ export default async function ProductList({
             <div className="relative w-full h-72">
               <Image
                 src={product.media?.mainMedia?.image?.url || "/product.png"}
-                alt=""
+                alt={`${product.name}`}
                 fill
                 sizes="25vw"
                 className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity easy duration-500"
@@ -41,14 +43,14 @@ export default async function ProductList({
               {product.media?.items && (
                 <Image
                   src={product.media?.items[1]?.image?.url || "/product.png"}
-                  alt=""
+                  alt={`${product.name}`}
                   fill
                   sizes="25vw"
                   className="absolute object-cover rounded-md"
                 />
               )}
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-4">
               <p className="font-medium line-clamp-1">{product.name}</p>
               <p className="font-semibold">${product.price?.price}</p>
             </div>

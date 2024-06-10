@@ -3,31 +3,32 @@ import { products, collections } from "@wix/stores";
 import cookies from "next/headers";
 
 export const wixClientServer = async () => {
-    
-    let refreshToken;
+  let refreshToken;
 
-    try {
-        const cookieStore = cookies();
-        refreshToken = JSON.parse(
-            cookieStore.get("refreshToken")?.value || "{}"
-        );
+  try {
+    const cookieStore = cookies();
+    refreshToken = JSON.parse(cookieStore.get("refreshToken")?.value || "{}");
+  } catch (error) {
+    console.error("Error parsing refresh token from cookies:", error);
+  }
 
-    } catch (error) {
-    
-    }
-
+  try {
     const wixClient = createClient({
-        modules: {
-            products,
-            collections,
+      modules: {
+        products,
+        collections,
+      },
+      auth: OAuthStrategy({
+        clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
+        tokens: {
+          refreshToken,
+          accessToken: { value: "", expiresAt: 0 },
         },
-        auth: OAuthStrategy({
-            clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
-            tokens: {
-                refreshToken,
-                accessToken: { value: "", expiresAt: 0 },
-            },
-        }),
+      }),
     });
     return wixClient;
+  } catch (error) {
+    console.error("Error creating Wix client:", error);
+    throw error;
+  }
 };
