@@ -2,17 +2,24 @@
 
 import React, { useState } from 'react'
 
-export default function Add() {
+export default function Add({
+  productId,
+  variantId,
+  stockNumber,
+}: {
+  productId:string;
+  variantId:string;
+  stockNumber:number;
+  }) {
+  
   const [quantity, setQuantity] = useState(1);
 
-  // temporary 
-  const stock = 4;
 
   const handleQuantity = (type: "i" | "d") => {
     if (type === "d" && quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
-    if (type === "i" && quantity < stock) {
+    if (type === "i" && quantity < stockNumber) {
       setQuantity((prev) => prev + 1);
     }
   };
@@ -23,13 +30,26 @@ export default function Add() {
       <div className="flex justify-between items-center">
         <div className="flex flex-col lg:flex-row items-center gap-4">
           <div className="bg-orange/20 py-2 px-4 rounded-3xl flex items-center justify-between w-32">
-            <button className='cursor-pointer text-xl' onClick={()=> handleQuantity("d")}>-</button>
-            <div className='border-x border-orange px-3'>{quantity}</div>
-            <button className='cursor-pointer text-xl' onClick={()=> handleQuantity("i")}>+</button>
+            <button
+              className="cursor-pointer text-xl"
+              onClick={() => handleQuantity("d")}
+            >
+              -
+            </button>
+            <div className="border-x border-orange px-3">{quantity}</div>
+            <button
+              className="cursor-pointer text-xl"
+              onClick={() => handleQuantity("i")}
+            >
+              +
+            </button>
           </div>
           <div>
             <p className="text-xs text-center lg:text-start">
-              Only <span className="text-orange font-semibold">{stock - quantity} items</span>{" "}
+              Only{" "}
+              <span className="text-orange font-semibold">
+                {stockNumber <= 0 ? "0" : stockNumber - quantity} items
+              </span>{" "}
               left! <br />
               {"Don't"} miss it
             </p>

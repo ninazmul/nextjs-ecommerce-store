@@ -41,7 +41,7 @@ export default async function listPage({
       </div>
       <Filter />
       {/* Products */}
-      <h1 className="mt-12 text-xl font-semibold">Shoes for You!</h1>
+      <h1 className="mt-12 text-xl font-semibold">{category?.collection?.name} for You!</h1>
       <Suspense fallback={"loading..."}>
         <ProductList
           categoryId={
