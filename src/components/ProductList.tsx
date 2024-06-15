@@ -11,10 +11,12 @@ export default async function ProductList({
   categoryId,
   limit,
   searchParams,
+  hidePagination = false,
 }: {
   categoryId: string;
   limit?: number;
   searchParams?: any;
+  hidePagination?: boolean;
 }) {
   try {
     const wixClient = await wixClientServer();
@@ -27,7 +29,11 @@ export default async function ProductList({
       .gt("priceData.price", searchParams?.min || 0)
       .lt("priceData.price", searchParams?.max || 99999999999)
       .limit(limit || PRODUCT_PER_PAGE)
-      .skip(searchParams?.page ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE) : 0);
+      .skip(
+        searchParams?.page
+          ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE)
+          : 0
+      );
 
     if (searchParams?.sort) {
       const [sortType, sortBy] = searchParams.sort.split(" ");
@@ -74,7 +80,10 @@ export default async function ProductList({
                 </p>
                 <div className="flex justify-between gap-4">
                   <p className="font-bold text-yellow-600 line-clamp-1">
-                    *****<span className="text-gray-500 font-normal text-sm">(5 reviews)</span>
+                    *****
+                    <span className="text-gray-500 font-normal text-sm">
+                      (5 reviews)
+                    </span>
                   </p>
                   <div className="flex gap-1 items-start">
                     {product.price?.price === product.price?.discountedPrice ? (
@@ -114,7 +123,13 @@ export default async function ProductList({
             </a>
           </Link>
         ))}
-        <Pagination currentPage={res.currentPage || 0} hasPrev={res.hasPrev()} hasNext={res.hasNext()} />
+        {!hidePagination && (
+          <Pagination
+            currentPage={res.currentPage || 0}
+            hasPrev={res.hasPrev()}
+            hasNext={res.hasNext()}
+          />
+        )}
       </div>
     );
   } catch (error) {

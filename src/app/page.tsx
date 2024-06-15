@@ -13,6 +13,7 @@ const HomePage = () => {
           <ProductList
             categoryId={process.env.FEATURED_PRODUCTS_CATEGORY_ID!}
             limit={4}
+            hidePagination={true}
           />
         </Suspense>
       </div>
