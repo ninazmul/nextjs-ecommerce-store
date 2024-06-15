@@ -1,5 +1,6 @@
 "use client";
 
+import useWixClient from "@/hooks/useWixClient";
 import React, { useState } from "react";
 
 export default function Add({
@@ -12,6 +13,7 @@ export default function Add({
   stockNumber: number;
 }) {
   const [quantity, setQuantity] = useState(1);
+  const wixClient = useWixClient();
 
   const handleQuantity = (type: "i" | "d") => {
     if (type === "d" && quantity > 1) {
@@ -20,6 +22,21 @@ export default function Add({
     if (type === "i" && quantity < stockNumber) {
       setQuantity((prev) => prev + 1);
     }
+  };
+
+  const addItem = async () => {
+    const response = await wixClient.currentCart.addToCurrentCart({
+      lineItems: [
+        {
+          catalogReference: {
+            appId: process.env.NEXT_PUBLIC_WIX_APP_ID!,
+            catalogItemId: productId,
+            ...(variantId && { options: { variantId } }),
+          },
+          quantity: stockNumber,
+        },
+      ],
+    });
   };
 
   return (
@@ -57,7 +74,10 @@ export default function Add({
             )}
           </div>
         </div>
-        <button className="rounded-2xl ring-1 ring-orange text-orange py-2 px-4 hover:bg-orange hover:text-white font-semibold transition-all duration-300 ease-in-out w-max disabled:cursor-not-allowed disabled:bg-orange/50 disabled:ring-orange/50 disabled:text-white/50">
+        <button
+          onClick={addItem()}
+          className="rounded-2xl ring-1 ring-orange text-orange py-2 px-4 hover:bg-orange hover:text-white font-semibold transition-all duration-300 ease-in-out w-max disabled:cursor-not-allowed disabled:bg-orange/50 disabled:ring-orange/50 disabled:text-white/50"
+        >
           Add to Cart
         </button>
       </div>

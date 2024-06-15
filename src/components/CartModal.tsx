@@ -1,11 +1,21 @@
-"use client"
+"use client";
 
-import Image from 'next/image';
-import React from 'react'
+import useWixClient from "@/hooks/useWixClient";
+import Image from "next/image";
+import React, { useEffect } from "react";
 
 export default function CartModal() {
-
   const cartItems = true;
+
+  const wixClient = useWixClient();
+
+  useEffect(() => {
+    const getCart = async () => {
+      const response = await wixClient.currentCart.getCurrentCart();
+    };
+    getCart();
+  }, [wixClient]);
+
   return (
     <div className="w-max text-black absolute p-4 rounded-md bg-white shadow-gray-400 shadow-lg border border-orange top-12 right-0 z-20 flex flex-col gap-6">
       {!cartItems ? (
@@ -13,8 +23,8 @@ export default function CartModal() {
           <p>Cart is Empty</p>
         </div>
       ) : (
-          <>
-            <h2 className='text-xl font-semibold'>Shopping Cart</h2>
+        <>
+          <h2 className="text-xl font-semibold">Shopping Cart</h2>
           {/* List */}
           <div className="flex flex-col gap-8">
             {/* Item 1 */}
@@ -80,8 +90,8 @@ export default function CartModal() {
               </div>
             </div>
           </div>
-            {/* Bottom */}
-            <div className='w-full border-t py-1 border-orange'></div>
+          {/* Bottom */}
+          <div className="w-full border-t py-1 border-orange"></div>
           <div>
             <div className="flex items-center justify-between font-semibold">
               <p className="">Subtotal</p>
