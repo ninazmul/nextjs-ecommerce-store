@@ -1,8 +1,6 @@
-"use client"
-
-import { myWixClient } from "@/context/wixContext";
 import { useContext } from "react";
+import { WixClientContext } from "@/context/wixContext";
 
 export default function useWixClient() {
-    return useContext(myWixClient);
+  return useContext(WixClientContext);
 }
