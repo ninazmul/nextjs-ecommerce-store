@@ -3,14 +3,22 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
-export default function ProductsImages({ items }: { items: any }) {
+interface Item {
+  id: string;
+  url: string;
+  name?: string;
+}
+
+export default function ProductsImages({ items }: { items: Item[] }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % items.length);
-    }, 5000);
-    return () => clearInterval(interval);
+    if (items.length > 0) {
+      const interval = setInterval(() => {
+        setIndex((prevIndex) => (prevIndex + 1) % items.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
   }, [items.length]);
 
   return (
@@ -20,10 +28,10 @@ export default function ProductsImages({ items }: { items: any }) {
           className="absolute inset-0 flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
-          {items.map((img: any) => (
+          {items.map((img: Item) => (
             <div key={img.id} className="flex-shrink-0 w-full h-full relative">
               <Image
-                src={img.url}
+                src={img.url || "/product.png"}
                 alt={img.name || "Product Image"}
                 fill
                 sizes="50vw"
@@ -34,7 +42,7 @@ export default function ProductsImages({ items }: { items: any }) {
         </div>
       </div>
       <div className="flex justify-between gap-4 mt-8">
-        {items.map((img: any, i: number) => (
+        {items.map((img: Item, i: number) => (
           <div
             key={img.id}
             className={`w-1/4 h-32 relative cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 ${
@@ -43,8 +51,8 @@ export default function ProductsImages({ items }: { items: any }) {
             onClick={() => setIndex(i)}
           >
             <Image
-              src={img.url}
-              alt={img.name || "Product Image"} 
+              src={img.url || "/product.png"}
+              alt={img.name || "Product Image"}
               fill
               sizes="30vw"
               className="object-cover rounded-md"

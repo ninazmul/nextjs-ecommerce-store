@@ -19,7 +19,8 @@
     "next": "^14.2.3",
     "react": "19.0.0-rc-cc1ec60d0d-20240607",
     "react-dom": "19.0.0-rc-cc1ec60d0d-20240607",
-    "react-icons": "^5.2.1"
+    "react-icons": "^5.2.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CartModal from "./CartModal";
 import useWixClient from "@/hooks/useWixClient";
 import Cookies from "js-cookie";
+import { useCartsStore } from "@/hooks/useCartsStore";
 
 export default function NavIcons() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -17,6 +18,12 @@ export default function NavIcons() {
   const pathname = usePathname();
 
   const isLoggedIn = wixClient.auth.loggedIn();
+
+  const { cart, counter, getCart } = useCartsStore();
+
+  useEffect(() => {
+    getCart(wixClient);
+  }, [wixClient, getCart]);
 
   const handleProfile = () => {
     if (!isLoggedIn) {
@@ -77,7 +84,7 @@ export default function NavIcons() {
           className="cursor-pointer"
         />
         <p className="absolute -top-4 -right-4 w-6 h-6 bg-orange text-white rounded-full text-sm flex items-center justify-center">
-          2
+          {counter}
         </p>
       </div>
       {isCartOpen && <CartModal />}
