@@ -1,5 +1,6 @@
 "use client";
 
+import { useCartsStore } from "@/hooks/useCartsStore";
 import useWixClient from "@/hooks/useWixClient";
 import React, { useState } from "react";
 
@@ -24,20 +25,7 @@ export default function Add({
     }
   };
 
-  const addItem = async () => {
-    const response = await wixClient.currentCart.addToCurrentCart({
-      lineItems: [
-        {
-          catalogReference: {
-            appId: process.env.NEXT_PUBLIC_WIX_APP_ID!,
-            catalogItemId: productId,
-            ...(variantId && { options: { variantId } }),
-          },
-          quantity: stockNumber,
-        },
-      ],
-    });
-  };
+  const { addItem, isLoading } = useCartsStore();
 
   return (
     <div className="flex flex-col gap-4">
@@ -75,10 +63,10 @@ export default function Add({
           </div>
         </div>
         <button
-          onClick={addItem()}
-          className="rounded-2xl ring-1 ring-orange text-orange py-2 px-4 hover:bg-orange hover:text-white font-semibold transition-all duration-300 ease-in-out w-max disabled:cursor-not-allowed disabled:bg-orange/50 disabled:ring-orange/50 disabled:text-white/50"
+          onClick={() => addItem(wixClient, productId, variantId, quantity)}
+          className="rounded-2xl ring-1 ring-orange text-orange py-2 px-4 hover:bg-orange hover:text-white font-semibold transition-all duration-300 ease-in-out w-max disabled:cursor-not-allowed disabled:bg-orange/50 disabled:ring-orange/50" disabled={isLoading}
         >
-          Add to Cart
+          {isLoading ? "Loading.." : "Add to Cart"}
         </button>
       </div>
     </div>

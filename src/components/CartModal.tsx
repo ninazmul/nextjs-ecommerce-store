@@ -3,17 +3,26 @@
 import { useCartsStore } from "@/hooks/useCartsStore";
 import Image from "next/image";
 import { media as wixMedia } from "@wix/sdk";
+import useWixClient from "@/hooks/useWixClient";
 
 export default function CartModal() {
-  const { cart, isLoading } = useCartsStore();
+  const { cart, isLoading, removeItem } = useCartsStore();
+  const wixClient = useWixClient();
+
+  const isEmpty = !cart.lineItems || cart.lineItems.length === 0;
 
   return (
     <div className="w-max text-black absolute p-4 rounded-md bg-white shadow-gray-400 shadow-lg border border-orange top-12 right-0 z-20 flex flex-col gap-6">
-      {isLoading ? (
-        "Loading..."
-      ) : !cart.lineItems ? (
-        <div>
-          <p>Cart is Empty</p>
+      {isEmpty ? (
+        <div className="flex flex-col items-center gap-4 p-10">
+          <Image
+            src="/emptyCart.png"
+            alt="empty cart"
+            width={384} 
+            height={384}
+            className="w-56"
+          />
+          <p className="text-gray-500">Cart is Empty</p>
         </div>
       ) : (
         <>
@@ -45,8 +54,8 @@ export default function CartModal() {
                     <h3 className="font-semibold">
                       {item?.productName?.original}
                     </h3>
-                    <p className="p-1 bg-gray-200 rounded-sm">
-                      {item?.price?.amount}
+                    <p className="p-1 bg-gray-200 rounded-sm flex items-center gap-2">
+                      {item.quantity && item.quantity > 1 && <span className="text-xs text-gray-500">{item.quantity} x </span>} {item?.price?.amount}
                     </p>
                   </div>
                   {/* Desc */}
@@ -58,8 +67,12 @@ export default function CartModal() {
                   {/* Bottom */}
                   <div className="flex justify-between text-sm py-2">
                     <p className="text-gray-700">Qty. {item?.quantity}</p>
-                    <p className="text-blue-500 text-sm font-semibold">
-                      Remove
+                    <p
+                      onClick={() => removeItem(wixClient, item._id!)}
+                      className="text-blue-500 text-sm font-semibold cursor-pointer"
+                      style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+                    >
+                      {isLoading ? "Loading.." : "Remove"}
                     </p>
                   </div>
                 </div>
@@ -71,7 +84,7 @@ export default function CartModal() {
           <div>
             <div className="flex items-center justify-between font-semibold">
               <p className="">Subtotal</p>
-              <p className="">$49</p>
+              <p className="">${cart.subtotal?.amount}</p>
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-4">
               Shipping and taxes calculated at Checkout.
@@ -80,8 +93,11 @@ export default function CartModal() {
               <button className="rounded-md py-3 px-4 ring-1 ring-orange font-bold shadow-gray-400 shadow-md">
                 View Cart
               </button>
-              <button className="rounded-md py-3 px-4 text-white bg-orange font-bold shadow-gray-400 shadow-md">
-                Checkout
+              <button
+                className="rounded-md py-3 px-4 text-white bg-orange font-bold shadow-gray-400 shadow-md disabled:bg-orange/50 disabled:cursor-not-allowed"
+                disabled={isLoading}
+              >
+                {isLoading ? "Loading.." : "Checkout"}
               </button>
             </div>
           </div>

@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 
 interface Item {
   id: string;
-  url: string;
+  image: { url: string }; // Adjusted to ensure the image property exists
   name?: string;
 }
 
@@ -31,7 +31,7 @@ export default function ProductsImages({ items }: { items: Item[] }) {
           {items.map((img: Item) => (
             <div key={img.id} className="flex-shrink-0 w-full h-full relative">
               <Image
-                src={img.url || "/product.png"}
+                src={img.image.url || "/product.png"} // Adjusted here to use the nested image.url property
                 alt={img.name || "Product Image"}
                 fill
                 sizes="50vw"
@@ -51,7 +51,7 @@ export default function ProductsImages({ items }: { items: Item[] }) {
             onClick={() => setIndex(i)}
           >
             <Image
-              src={img.url || "/product.png"}
+              src={img.image.url || "/product.png"} // Adjusted here to use the nested image.url property
               alt={img.name || "Product Image"}
               fill
               sizes="30vw"
